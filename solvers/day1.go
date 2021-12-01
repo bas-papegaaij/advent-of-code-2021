@@ -3,35 +3,26 @@ package solvers
 type Day1 struct{}
 
 func (d Day1) Solve(input []string, part int) (int64, error) {
-	return genericSolve(d, input, part)
+	switch part {
+	case 1:
+		return d.solve(input, 1)
+	case 2:
+		return d.solve(input, 3)
+	}
+
+	return -1, invalidPartError(part)
 }
 
-func (d Day1) part1(input []string) (int64, error) {
+func (d Day1) solve(input []string, windowSize int) (int64, error) {
 	nums, err := inputsToInt(input)
 	if err != nil {
 		return -1, err
 	}
 
 	increaseCount := 0
-	for i, num := range nums[1:] {
-		if num > nums[i] {
-			increaseCount += 1
-		}
-	}
-
-	return int64(increaseCount), nil
-}
-
-func (d Day1) part2(input []string) (int64, error) {
-	nums, err := inputsToInt(input)
-	if err != nil {
-		return -1, err
-	}
-
-	increaseCount := 0
-	lastWin := sumIntSlice(nums[:3])
-	for i := 1; i < len(nums)-2; i++ {
-		curWin := sumIntSlice(nums[i : i+3])
+	lastWin := sumIntSlice(nums[:windowSize])
+	for i := 1; i < len(nums)-(windowSize-1); i++ {
+		curWin := sumIntSlice(nums[i : i+windowSize])
 		if curWin > lastWin {
 			increaseCount++
 		}
