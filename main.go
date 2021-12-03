@@ -15,6 +15,7 @@ type Solver interface {
 var solutions []Solver = []Solver{
 	solvers.Day1{},
 	solvers.Day2{},
+	solvers.Day3{},
 }
 
 var inputFile string
