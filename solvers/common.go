@@ -38,3 +38,11 @@ func splitByEmptyLines(input []string) [][]string {
 	res = append(res, curBlock)
 	return res
 }
+
+func absInt(value int) int {
+	if value < 0 {
+		return -value
+	}
+
+	return value
+}
