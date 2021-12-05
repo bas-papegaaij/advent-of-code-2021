@@ -6,6 +6,7 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"time"
 )
 
 type Solver interface {
@@ -31,10 +32,12 @@ func main() {
 		panic(err)
 	}
 
+	start := time.Now()
 	answer, err := solutions[question].Solve(lines, questionPart)
 	if err != nil {
 		panic(err)
 	}
+	fmt.Println("solution took", time.Since(start))
 
 	fmt.Println("Answer to question part", questionPart, "was", answer)
 }

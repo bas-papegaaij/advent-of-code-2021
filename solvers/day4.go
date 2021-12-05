@@ -122,7 +122,7 @@ type bingoSquare struct {
 }
 
 type bingoBoard struct {
-	squares []*bingoSquare
+	squares []bingoSquare
 
 	width int
 }
@@ -130,11 +130,11 @@ type bingoBoard struct {
 func newBoard(numbers []int, width int) bingoBoard {
 	b := bingoBoard{
 		width:   width,
-		squares: make([]*bingoSquare, len(numbers)),
+		squares: make([]bingoSquare, len(numbers)),
 	}
 
 	for i, num := range numbers {
-		b.squares[i] = &bingoSquare{
+		b.squares[i] = bingoSquare{
 			value:  num,
 			marked: false,
 		}
@@ -149,7 +149,7 @@ func newBoard(numbers []int, width int) bingoBoard {
 func (b bingoBoard) markNumber(number int) int {
 	for i, square := range b.squares {
 		if square.value == number {
-			square.marked = true
+			b.squares[i].marked = true
 			return i
 		}
 	}
