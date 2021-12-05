@@ -22,3 +22,19 @@ func inputsToInt(input []string) ([]int, error) {
 
 	return res, nil
 }
+
+func splitByEmptyLines(input []string) [][]string {
+	res := make([][]string, 0)
+	curBlock := []string{}
+	for i := 0; i < len(input); i++ {
+		curStr := input[i]
+		if curStr == "" {
+			res = append(res, curBlock)
+			curBlock = []string{}
+		} else {
+			curBlock = append(curBlock, curStr)
+		}
+	}
+	res = append(res, curBlock)
+	return res
+}
