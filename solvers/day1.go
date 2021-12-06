@@ -32,11 +32,3 @@ func (d Day1) solve(input []string, windowSize int) (int64, error) {
 
 	return int64(increaseCount), nil
 }
-
-func sumIntSlice(vals []int) int {
-	sum := 0
-	for _, num := range vals {
-		sum += num
-	}
-	return sum
-}

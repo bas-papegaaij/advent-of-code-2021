@@ -46,3 +46,11 @@ func absInt(value int) int {
 
 	return value
 }
+
+func sumIntSlice(vals []int) int {
+	sum := 0
+	for _, num := range vals {
+		sum += num
+	}
+	return sum
+}

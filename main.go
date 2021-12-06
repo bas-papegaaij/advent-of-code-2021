@@ -19,6 +19,7 @@ var solutions []Solver = []Solver{
 	solvers.Day3{},
 	solvers.Day4{},
 	solvers.Day5{},
+	solvers.Day6{},
 }
 
 var inputFile string
@@ -29,6 +30,7 @@ var runProfile bool
 func main() {
 	parseArgs()
 
+	start := time.Now()
 	lines, err := parseLines()
 	if err != nil {
 		panic(err)
@@ -39,6 +41,7 @@ func main() {
 	} else {
 		solutionMode(lines)
 	}
+	fmt.Println("including parse, took:", time.Since(start))
 }
 
 func solutionMode(lines []string) {
