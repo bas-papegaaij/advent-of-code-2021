@@ -20,7 +20,6 @@ func (d Day7) Solve(input []string, part int) (int64, error) {
 	// identical results between the brute force method (definitely correct) and my solution
 	switch part {
 	case 1:
-
 		// d.part1BruteForce(nums)
 		return d.part1(nums)
 	case 2:
@@ -44,13 +43,19 @@ func (d Day7) part1(nums []int) (int64, error) {
 
 func (d Day7) part2(nums []int) (int64, error) {
 	sum := sumIntSlice(nums)
-	roundedMean := (sum + len(nums) - 1) / len(nums)
+	floor := sum / len(nums)
+	ceil := floor
+	// If we had any remainder in our mean, it's been rounded down
+	// also check the integer value for rounding up
+	if sum%len(nums) != 0 {
+		ceil += 1
+	}
 
 	results := []int{}
-	for i := -1; i <= 0; i++ {
+	for i := floor; i <= ceil; i++ {
 		total := 0
 		for _, num := range nums {
-			distance := absInt((roundedMean + i) - num)
+			distance := absInt(i - num)
 			total += (distance * (distance + 1)) / 2
 		}
 		results = append(results, total)
