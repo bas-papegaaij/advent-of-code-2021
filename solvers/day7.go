@@ -14,12 +14,17 @@ func (d Day7) Solve(input []string, part int) (int64, error) {
 		return -1, err
 	}
 
+	// I've done a quick and dirty brute force solution to both parts
+	// because I'm still not 100% sure why my solutions work (especially part 2)
+	// or if they work for all inputs. So far it's consistently produced
+	// identical results between the brute force method (definitely correct) and my solution
 	switch part {
 	case 1:
-		d.part1BruteForce(nums)
+
+		// d.part1BruteForce(nums)
 		return d.part1(nums)
 	case 2:
-		d.part2BruteForce(nums)
+		// d.part2BruteForce(nums)
 		return d.part2(nums)
 	}
 
