@@ -20,6 +20,7 @@ var solutions []Solver = []Solver{
 	solvers.Day4{},
 	solvers.Day5{},
 	solvers.Day6{},
+	solvers.Day7{},
 }
 
 var inputFile string
