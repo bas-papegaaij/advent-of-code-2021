@@ -9,9 +9,10 @@ import (
 type Day9 struct{}
 
 type depthPoint struct {
-	value int
-	basin *depthPoint
-	pos   intVector
+	value  int
+	basin  *depthPoint
+	pos    intVector
+	filled bool
 }
 type depthMap struct {
 	width  int
@@ -29,7 +30,8 @@ func (d Day9) Solve(input []string, part int) (int64, error) {
 		return -1, invalidPartError(part)
 	}
 
-	return d.solve(grid, part), nil
+	// return d.solve(grid, part), nil
+	return d.solveFloodFill(grid, part), nil
 }
 
 func (d Day9) solve(grid depthMap, part int) int64 {
@@ -62,6 +64,27 @@ func (d Day9) solve(grid depthMap, part int) int64 {
 	return int64(sizes[back] * sizes[back-1] * sizes[back-2])
 }
 
+func (d Day9) solveFloodFill(grid depthMap, part int) int64 {
+	lowPoints := grid.findLowPoints()
+
+	if part == 1 {
+		total := 0
+		for _, point := range lowPoints {
+			total += 1 + point.value
+		}
+		return int64(total)
+	}
+
+	sizes := make([]int, len(lowPoints))
+	for i := 0; i < len(sizes); i++ {
+		sizes[i] = grid.floodFill(lowPoints[i])
+	}
+
+	sort.Ints(sizes)
+	back := len(sizes) - 1
+	return int64(sizes[back] * sizes[back-1] * sizes[back-2])
+}
+
 func (d Day9) parseHeightMap(input []string) (depthMap, error) {
 	width := len(input[0])
 	size := width * len(input)
@@ -72,7 +95,7 @@ func (d Day9) parseHeightMap(input []string) (depthMap, error) {
 			if err != nil {
 				return depthMap{}, err
 			}
-			grid = append(grid, depthPoint{val, nil, intVector{x, y}})
+			grid = append(grid, depthPoint{val, nil, intVector{x, y}, false})
 		}
 	}
 
@@ -152,4 +175,35 @@ func (grid depthMap) getLowestAdjacentPoint(current *depthPoint) *depthPoint {
 	}
 
 	return nextPt
+}
+
+// Alternate solution
+func (grid depthMap) findLowPoints() []*depthPoint {
+	lowPoints := []*depthPoint{}
+	for x := 0; x < grid.width; x++ {
+		for y := 0; y < grid.height; y++ {
+			cur := grid.getPoint(x, y)
+			if grid.isLowPoint(cur) {
+				lowPoints = append(lowPoints, cur)
+			}
+		}
+	}
+
+	return lowPoints
+}
+
+func (grid depthMap) floodFill(point *depthPoint) int {
+	if point == nil || point.filled || point.value == 9 {
+		return 0
+	}
+
+	point.filled = true
+	sum := 1
+	x, y := point.pos.x, point.pos.y
+	sum += grid.floodFill(grid.getPoint(x+1, y))
+	sum += grid.floodFill(grid.getPoint(x-1, y))
+	sum += grid.floodFill(grid.getPoint(x, y+1))
+	sum += grid.floodFill(grid.getPoint(x, y-1))
+
+	return sum
 }
