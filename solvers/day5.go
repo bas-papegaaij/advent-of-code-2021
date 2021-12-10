@@ -8,11 +8,6 @@ import (
 
 type Day5 struct{}
 
-type intVector struct {
-	x int
-	y int
-}
-
 type lineSegment struct {
 	start intVector
 	end   intVector

@@ -5,6 +5,11 @@ import (
 	"strconv"
 )
 
+type intVector struct {
+	x int
+	y int
+}
+
 func invalidPartError(part int) error {
 	return fmt.Errorf("no solution for question part %d", part)
 }
