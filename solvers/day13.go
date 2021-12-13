@@ -138,7 +138,7 @@ func (o *origamiInput) print() {
 	for i := 0; i < height; i++ {
 		line := make([]rune, width)
 		for j := 0; j < width; j++ {
-			line[j] = '.'
+			line[j] = ' '
 		}
 		lines[i] = line
 	}
