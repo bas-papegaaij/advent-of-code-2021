@@ -3,6 +3,7 @@ package solvers
 import (
 	"fmt"
 	"strconv"
+	"strings"
 )
 
 type intVector struct {
@@ -58,4 +59,21 @@ func sumIntSlice(vals []int) int {
 		sum += num
 	}
 	return sum
+}
+
+func stringToIntvector(val string) (intVector, error) {
+	split := strings.Split(val, ",")
+	if len(split) != 2 {
+		return intVector{}, fmt.Errorf("invalid intvector string %s had %d parts, expected 2", val, len(split))
+	}
+	x, err := strconv.Atoi(split[0])
+	if err != nil {
+		return intVector{}, fmt.Errorf("invalid intvector string had non-number x-part %s", split[0])
+	}
+	y, err := strconv.Atoi(split[1])
+	if err != nil {
+		return intVector{}, fmt.Errorf("invalid intvector string had non-number y-part %s", split[0])
+	}
+
+	return intVector{x, y}, nil
 }
