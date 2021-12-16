@@ -30,9 +30,10 @@ var solutions []Solver = []Solver{
 	solvers.Day14{},
 	solvers.Day15{},
 	solvers.Day16{},
+	solvers.Day17{},
 }
 
-var inputFile string
+var testMode bool
 var questionPart int
 var question int
 var runProfile bool
@@ -91,7 +92,11 @@ func profileMode(lines []string) {
 }
 
 func parseLines() ([]string, error) {
-	f, err := os.Open(inputFile)
+	file := fmt.Sprintf("./inputs/day%d.txt", question+1)
+	if testMode {
+		file = "./inputs/test.txt"
+	}
+	f, err := os.Open(file)
 	if err != nil {
 		return nil, err
 	}
@@ -106,9 +111,9 @@ func parseLines() ([]string, error) {
 }
 
 func parseArgs() {
-	flag.StringVar(&inputFile, "input", "input.txt", "Location of the input file, relative to the working directory")
-	flag.IntVar(&question, "question", 0, "Which question to answer")
-	flag.IntVar(&questionPart, "part", 1, "The part of the question to answer - 1 or 2")
+	flag.BoolVar(&testMode, "t", false, "Whether to use test mode. If enabled, input will be read from inputs/test.txt. Otherwise we read inputs/day<q>.txt")
+	flag.IntVar(&question, "q", 0, "Which question to answer")
+	flag.IntVar(&questionPart, "p", 1, "The part of the question to answer - 1 or 2")
 	flag.BoolVar(&runProfile, "prof", false, "Whether to run a profile. If enabled runs the solution 1000 times and grabs an average, min and max runtimes")
 
 	flag.Parse()

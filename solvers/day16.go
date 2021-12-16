@@ -117,7 +117,6 @@ func (p *valuePacket) evaluate() int64 {
 }
 
 func (p *valuePacket) decode() {
-	bitsRead := 6
 	shouldContinue := true
 	var valueBits strings.Builder
 	for shouldContinue {
@@ -126,7 +125,6 @@ func (p *valuePacket) decode() {
 			shouldContinue = false
 		}
 		valueBits.WriteString(p.decoder.read(4))
-		bitsRead += 5
 	}
 	val, err := strconv.ParseInt(valueBits.String(), 2, 64)
 	if err != nil {
